@@ -3,7 +3,7 @@ import { AppContext } from "../../../context/appContext";
 import { Link } from "react-router-dom";
 
 function Header() {
-  const { productsCart, setProductsCart } = useContext(AppContext);
+  const { productsCart } = useContext(AppContext);
 
   const renderCart =
     productsCart.length > 0 ? (
@@ -33,7 +33,7 @@ function Header() {
             alt="icon"
           />
           <h4 className="text-xl text-gray-600 font-[500] font-Dancing">
-            Gourmet
+            Fast Food
           </h4>
         </a>
       </div>

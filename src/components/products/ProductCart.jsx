@@ -3,7 +3,8 @@ import { AppContext } from "../../../context/appContext";
 
 function ProductCart({ product }) {
   const { _id, name, price, img, img_url } = product.product;
-  const { productsCart, setProductsCart } = useContext(AppContext);
+  const { products, setProducts, productsCart, setProductsCart } =
+    useContext(AppContext);
 
   function setQuantityProductPlus(id) {
     const productsCartUpdated = productsCart.map((productCart) => {
@@ -44,6 +45,19 @@ function ProductCart({ product }) {
     );
     setProductsCart(productsCartUpdated);
     localStorage.setItem("productsCart", JSON.stringify(productsCartUpdated));
+
+    setProducts(
+      products.map((item) => {
+        if (item._id === id) {
+          return {
+            ...item,
+            isSelected: false,
+          };
+        } else {
+          return item;
+        }
+      })
+    );
   }
 
   return (

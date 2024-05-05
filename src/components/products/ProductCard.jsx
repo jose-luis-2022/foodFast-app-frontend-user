@@ -2,10 +2,23 @@ import React, { useContext } from "react";
 import { AppContext } from "../../../context/appContext";
 
 function ProductCard({ product }) {
-  const { name, price, img, img_url } = product;
-  const { productsCart, setProductsCart } = useContext(AppContext);
+  const { name, price, img, img_url, isSelected } = product;
+  const { products, setProducts, productsCart, setProductsCart } =
+    useContext(AppContext);
 
   function setProductsCartList(product) {
+    setProducts(
+      products.map((item) => {
+        if (item._id === product._id) {
+          return {
+            ...item,
+            isSelected: true,
+          };
+        } else {
+          return item;
+        }
+      })
+    );
     const newProductCartList = [
       ...productsCart,
       { client: "", product: product, quantity: 1, total: price },
@@ -15,7 +28,7 @@ function ProductCard({ product }) {
   }
 
   return (
-    <div className="flex flex-col justify-center items-center shadow rounded-md w-48 space-y-1 pb-3">
+    <div className="flex flex-col justify-center items-center shadow rounded-md w-48 space-y-1 pb-3 bg-gray-200">
       <img
         src={img_url}
         alt={img}
@@ -27,7 +40,8 @@ function ProductCard({ product }) {
       </div>
       <button
         onClick={() => setProductsCartList(product)}
-        className="flex items-center justify-center text-xs px-2 py-1 gap-1 bg-green-500 text-white rounded-md hover:scale-[103%] duration-200"
+        disabled={isSelected && "disabled"}
+        className={`flex items-center justify-center text-xs px-2 py-1 gap-1 ${isSelected ? "bg-gray-400": "bg-green-500"} text-white rounded-md hover:scale-[103%] duration-200`}
       >
         <i className="ri-shopping-cart-2-line"></i>
         <p>Add to Cart</p>

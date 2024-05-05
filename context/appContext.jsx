@@ -1,12 +1,30 @@
-import React from "react";
+import React, { createContext, useState } from "react";
 
-export const AppContext = React.createContext();
+export const AppContext = createContext();
 
 export function AppProvider({ children }) {
-  const [productsCart, setProductsCart] = React.useState(localStorage.getItem("productsCart")? JSON.parse(localStorage.getItem("productsCart")) : []);
-
+  const [products, setProducts] = useState([]);
+  const [productsCart, setProductsCart] = useState(
+    localStorage.getItem("productsCart")
+      ? JSON.parse(localStorage.getItem("productsCart"))
+      : []
+  );
+  const message = localStorage.getItem("message")
+    ? JSON.parse(localStorage.getItem("message"))
+    : "";
+  const [isConfirmCart, setIsConfirmCart] = useState(false);
   return (
-    <AppContext.Provider value={{ productsCart, setProductsCart }}>
+    <AppContext.Provider
+      value={{
+        products,
+        setProducts,
+        productsCart,
+        setProductsCart,
+        message,
+        isConfirmCart,
+        setIsConfirmCart,
+      }}
+    >
       {children}
     </AppContext.Provider>
   );
