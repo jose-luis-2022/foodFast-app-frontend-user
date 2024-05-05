@@ -2,11 +2,10 @@ import React, { useEffect, useContext } from "react";
 import axiosClient from "../../config/axios";
 import ProductCard from "../products/ProductCard";
 import { AppContext } from "../../../context/appContext";
-import Swal from "sweetalert2";
 import MessageMixin from "../tools/MessageMixin";
 
 function Home() {
-  const { products, setProducts, productsCart, message} =
+  const { products, setProducts, productsCart, messageCart} =
     useContext(AppContext);
 
   const apiQuery = async () => {
@@ -27,9 +26,9 @@ function Home() {
   
   useEffect(() => {
     apiQuery();
-    if (message) {
-      MessageMixin(message);
-      localStorage.removeItem("message");
+    if (messageCart) {
+      MessageMixin(messageCart);
+      localStorage.removeItem("messageCart");
     }
   }, []);
 

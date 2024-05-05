@@ -58,7 +58,7 @@ function Cart() {
               if (res.status === 200) {
                 localStorage.removeItem("productsCart");
                 localStorage.setItem(
-                  "message",
+                  "messageCart",
                   JSON.stringify(res.data.message)
                 );
                 window.location.href = "/";

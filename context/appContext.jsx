@@ -9,8 +9,11 @@ export function AppProvider({ children }) {
       ? JSON.parse(localStorage.getItem("productsCart"))
       : []
   );
-  const message = localStorage.getItem("message")
-    ? JSON.parse(localStorage.getItem("message"))
+  const messageCart = localStorage.getItem("messageCart")
+    ? JSON.parse(localStorage.getItem("messageCart"))
+    : "";
+  const messageOrder = localStorage.getItem("messageOrder")
+    ? JSON.parse(localStorage.getItem("messageOrder"))
     : "";
   const [isConfirmCart, setIsConfirmCart] = useState(false);
   return (
@@ -20,7 +23,8 @@ export function AppProvider({ children }) {
         setProducts,
         productsCart,
         setProductsCart,
-        message,
+        messageCart,
+        messageOrder,
         isConfirmCart,
         setIsConfirmCart,
       }}
