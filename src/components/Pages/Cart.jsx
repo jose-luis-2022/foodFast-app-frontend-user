@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 function Cart() {
   const { productsCart } = useContext(AppContext);
   const [address, setAddress] = useState("");
+  const [suggestions, setSuggestions] = useState("");
   const [loading, setLoading] = useState(false);
   const date = new Date();
 
@@ -27,7 +28,7 @@ function Cart() {
             icon: "info",
             confirmButtonColor: "#3085d6",
             confirmButtonText: "OK",
-          })
+          });
         } else {
           setLoading(true);
           setTimeout(async () => {
@@ -40,6 +41,7 @@ function Cart() {
                   quantity: productCart.quantity,
                 };
               }),
+              suggestions: suggestions,
               total: productsCart.reduce((total, productCart) => {
                 return total + productCart.total;
               }, 0),
@@ -70,13 +72,13 @@ function Cart() {
         }
       }
     });
-  };
+  }
 
   return (
     <div className="my-10 font-Mulish flex">
       <div
         className={`${
-          productsCart.length === 0 ? "w-10/12 mx-auto" : "w-[70%]"
+          productsCart.length === 0 ? "w-10/12 mx-auto" : "w-[65%]"
         } bg-white shadow`}
       >
         <div className="w-full px-5 bg-white">
@@ -118,15 +120,27 @@ function Cart() {
       <div
         className={`${
           productsCart.length === 0 ? "hidden" : "flex"
-        } w-[30%] flex-col items-center space-y-5`}
+        } w-[35%] flex-col items-center space-y-5`}
       >
-        <div className=" border-b-[1px] border-gray-600 mb-5 p-5">
+        <div className=" border-b-[1px] border-gray-600 mb-5 py-5 px-5">
           <h1 className="text-normal text-center font-bold">Order Summary</h1>
         </div>
         <div
           className={`${
             productsCart.length === 0 ? "hidden" : "block"
-          } px-2 space-y-5`}
+          } space-y-5`}
+        >
+          <p className="text-sm">Suggestions</p>
+          <textarea
+            onChange={(e) => setSuggestions(e.target.value)}
+            placeholder="Write your suggestions"
+            className="w-full px-2 py-1 rounded-md text-sm hover:scale-[103%] duration-700"
+          />
+        </div>
+        <div
+          className={`${
+            productsCart.length === 0 ? "hidden" : "block"
+          } space-y-5`}
         >
           <p className="text-sm">Address</p>
           <input

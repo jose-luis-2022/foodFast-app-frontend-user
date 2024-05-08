@@ -3,10 +3,13 @@ import { AppContext } from "../../../context/appContext";
 import axiosClient from "../../config/axios";
 import OrderRow from "../orders/OrderRow";
 import MessageMixin from "../tools/MessageMixin";
+import ProductDetails from "../products/ProductDetails";
 
 function MyOrders() {
   const [orders, setOrders] = useState([]);
   const { messageOrder } = useContext(AppContext);
+  const [orderDetail, setOrderDetail] = useState({});
+  const { isOpenProductDetails } = useContext(AppContext);
 
   const apiQuery = async () => {
     const response = await axiosClient.get("/orders");
@@ -40,29 +43,32 @@ function MyOrders() {
         <table className="w-full">
           <tbody>
             <tr>
-              <th className="w-[35%] text-xs uppercase text-gray-600">
-                Order Details
+              <th className="w-[15%] text-xs uppercase text-gray-600">
+                Order number
               </th>
-              <th className="w-[10%] text-xs uppercase text-gray-600">Total</th>
-              <th className="w-[10%] text-xs uppercase text-gray-600">
+              <th className="w-[15%] text-xs uppercase text-gray-600">
+                Total
+              </th>
+              <th className="w-[15%] text-xs uppercase text-gray-600">
                 Order date
               </th>
               <th className="w-[20%] text-xs uppercase text-gray-600">
-                Home Address
-              </th>
-              <th className="w-[10%] text-xs uppercase text-gray-600">
-                Order status
+                Home address
               </th>
               <th className="w-[15%] text-xs uppercase text-gray-600">
+                Order status
+              </th>
+              <th className="w-[20%] text-xs uppercase text-gray-600">
                 Options
               </th>
             </tr>
             {orders.map((order) => (
-              <OrderRow key={order._id} order={order} />
+              <OrderRow key={order._id} order={order} setOrderDetail={setOrderDetail} />
             ))}
           </tbody>
         </table>
       </div>
+      {isOpenProductDetails && <ProductDetails orderDetail={orderDetail} />}
       <div
         className={`${
           orders.length === 0 ? "flex" : "hidden"

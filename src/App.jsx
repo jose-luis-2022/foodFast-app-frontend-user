@@ -23,7 +23,7 @@ const render = (
 
 const renderClientPages = (
   <BrowserRouter>
-    <div className="bg-gray-100">
+    <div className="bg-[#EFF7F6]">
       <Header />
       <div className="flex pr-20">
         <Sidebar />

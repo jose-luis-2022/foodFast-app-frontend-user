@@ -24,7 +24,7 @@ function Header() {
       </Link>
     );
   return (
-    <header className="bg-[#FBFDFF] font-Mulish flex justify-around px-16 py-2">
+    <header className="bg-[#F5F6F8] font-Mulish flex justify-around px-16 py-2 shadow">
       <div className="flex lg:flex-1">
         <a href="#" className="flex items-center gap-2 m-1.5 p-1.5">
           <img

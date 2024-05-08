@@ -1,18 +1,52 @@
-import React from "react";
+import {useContext} from "react";
 import Swal from "sweetalert2";
 import axiosClient from "../../config/axios";
+import { AppContext } from "../../../context/appContext";
 
-function OrderRow({ order }) {
+function OrderRow({ order, setOrderDetail }) {
   const {
     _id,
     client,
     address,
-    order: order_products,
     total,
     order_date,
     status,
   } = order;
+
+  const {setIsOpenProductDetails} = useContext(AppContext);
+
   const date = new Date(order_date);
+
+  async function watchOrderDetails(order){
+    setOrderDetail(order);
+    setIsOpenProductDetails(true);
+  }
+
+
+  async function editOrder(id) {
+    const { value: newAddress } = await Swal.fire({
+      title: "Edit your address",
+      input: "text",
+      inputLabel: "Your new address",
+      showCancelButton: true,
+      inputValidator: (value) => {
+        if (!value) {
+          return "You need to write a new address!";
+        }
+      },
+    });
+    if (newAddress) {
+      await axiosClient
+        .patch(`/orders/${id}`, { address: newAddress })
+        .then((res) => {
+          localStorage.setItem(
+            "messageOrder",
+            JSON.stringify("The address has been updated!")
+          );
+          window.location.href = "/my-orders";
+        });
+    }
+  }
 
   function cancelOrder(id) {
     Swal.fire({
@@ -25,7 +59,10 @@ function OrderRow({ order }) {
     }).then(async (result) => {
       if (result.isConfirmed) {
         await axiosClient.delete(`/orders/${id}`, order).then((res) => {
-          localStorage.setItem('messageOrder', JSON.stringify(res.data.message));
+          localStorage.setItem(
+            "messageOrder",
+            JSON.stringify(res.data.message)
+          );
           window.location.href = "/my-orders";
         });
       }
@@ -35,7 +72,7 @@ function OrderRow({ order }) {
   return (
     <tr className="border-b-[1px] border-gray-200">
       <td className="flex items-center justify-center py-3">
-        <p className="text-sm font-normal mx-3">{order_products.length}</p>
+        <p className="text-sm font-normal mx-3">{_id}</p>
       </td>
       <td className="text-center">
         <p className="text-sm font-semibold">$ {total}</p>
@@ -62,7 +99,16 @@ function OrderRow({ order }) {
         </p>
       </td>
       <td className="flex justify-center space-x-3">
-        <button className="py-0.5 px-1.5 bg-gray-300 rounded-md">
+        <button
+          onClick={() => watchOrderDetails(order)}
+          className="py-0.5 px-1.5 bg-gray-300 rounded-md"
+        >
+          <i className="ri-eye-fill"></i>
+        </button>
+        <button
+          onClick={() => editOrder(_id)}
+          className="py-0.5 px-1.5 bg-blue-300 rounded-md"
+        >
           <i className="ri-pencil-fill text-normal"></i>
         </button>
         <button

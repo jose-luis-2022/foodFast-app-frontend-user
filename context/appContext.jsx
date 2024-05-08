@@ -16,6 +16,7 @@ export function AppProvider({ children }) {
     ? JSON.parse(localStorage.getItem("messageOrder"))
     : "";
   const [isConfirmCart, setIsConfirmCart] = useState(false);
+  const [isOpenProductDetails, setIsOpenProductDetails] = useState(false);
   return (
     <AppContext.Provider
       value={{
@@ -27,6 +28,8 @@ export function AppProvider({ children }) {
         messageOrder,
         isConfirmCart,
         setIsConfirmCart,
+        isOpenProductDetails,
+        setIsOpenProductDetails
       }}
     >
       {children}
