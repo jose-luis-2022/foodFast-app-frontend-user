@@ -8,7 +8,7 @@ function ProductDetails({ orderDetail }) {
 
   const renderProductsDetails = order.map((product) => {
     return (
-      <div className="flex justify-between items-center mx-5 border-b-[0.5px] border-gray-100">
+      <div key={product._id} className="flex justify-between items-center mx-5 border-b-[0.5px] border-gray-100">
         <div className="flex justify-center items-center gap-2 w-3/4">
           <img
             className="h-24"
@@ -28,7 +28,7 @@ function ProductDetails({ orderDetail }) {
     <div
       className={`${
         isOpenProductDetails ? "absolute" : "hidden"
-      } w-4/12 h-3/5 left-0 top-20 right-0 m-auto p-5 bg-white opacity-95 shadow rounded-lg`}
+      } w-4/12 h-3/5 left-48 right-0 top-32 m-auto p-5 bg-white opacity-95 shadow rounded-lg`}
     >
       <div className="w-full flex justify-between p-3 border-b-[1px] border-gray-400">
         <p className="text-lg font-semibold">Order Detail</p>

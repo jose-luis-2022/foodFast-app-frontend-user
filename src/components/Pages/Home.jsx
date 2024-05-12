@@ -1,12 +1,15 @@
-import React, { useEffect, useContext } from "react";
+import { useEffect, useContext, useState } from "react";
 import axiosClient from "../../config/axios";
 import ProductCard from "../products/ProductCard";
 import { AppContext } from "../../../context/appContext";
 import MessageMixin from "../tools/MessageMixin";
+import Loader from "../tools/Loader";
 
 function Home() {
-  const { products, setProducts, productsCart, messageCart} =
+  const { products, setProducts, productsCart, messageCart } =
     useContext(AppContext);
+
+  const [loadingProducts, setLoadingProducts] = useState(true);
 
   const apiQuery = async () => {
     const response = await axiosClient.get("/products");
@@ -22,23 +25,38 @@ function Home() {
         };
       })
     );
+    setLoadingProducts(false);
   };
-  
+
   useEffect(() => {
-    apiQuery();
+    setProducts([])
+    setTimeout(function () {
+      apiQuery();
+    }, 1000);
     if (messageCart) {
       MessageMixin(messageCart);
       localStorage.removeItem("messageCart");
     }
   }, []);
 
+  const loadingSection = () => {
+    if (loadingProducts) {
+      if (products.length === 0) {
+        return <Loader />;
+      }
+    }
+  };
+
   return (
     <div className="my-5 font-Mulish space-y-5">
-      <h1 className="text-xl text-center font-semibold">Products</h1>
-      <div className="grid grid-cols-5 gap-5 h-[550px] overflow-y-scroll scrollbar-hide">
-        {products.map((product) => (
-          <ProductCard key={product._id} product={product} />
-        ))}
+      <h1 className="text-2xl text-center font-bold opacity-90">Products</h1>
+      <div className="relative flex justify-center">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:h-[850px] lg:h-[550px] overflow-y-scroll scrollbar-hide">
+          {products.map((product) => (
+            <ProductCard key={product._id} product={product} />
+          ))}
+        </div>
+        <div className="absolute flex py-36">{loadingSection()}</div>
       </div>
     </div>
   );

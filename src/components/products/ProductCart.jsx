@@ -6,6 +6,48 @@ function ProductCart({ product }) {
   const { products, setProducts, productsCart, setProductsCart } =
     useContext(AppContext);
 
+  const quantityrender = (
+    <div className="hidden lg:flex justify-center items-center space-x-3">
+      <button
+        onClick={() => setQuantityProductMinus(_id)}
+        className="font-semibold hover:scale-[103%] duration-200"
+      >
+        <i className="ri-subtract-line"></i>
+      </button>
+      <p className="text-sm font-normal px-2 py-0.5 border-2 border-gray-200 rounded-md shadow">
+        {product.quantity}
+      </p>
+      <button
+        onClick={() => setQuantityProductPlus(_id)}
+        className="font-semibold hover:scale-[103%] duration-200"
+      >
+        <i className="ri-add-line"></i>
+      </button>
+    </div>
+  );
+
+  const quantityrenderMobile = (
+    <div className="flex lg:hidden justify-center items-center space-x-3">
+      <p className="text-xs md:text-sm font-normal px-2 py-0.5 border-2 border-gray-200 rounded-md shadow">
+        {product.quantity}
+      </p>
+      <div className="flex flex-col mt-2">
+        <button
+          onClick={() => setQuantityProductPlus(_id)}
+          className="font-semibold hover:scale-[103%] duration-200"
+        >
+          <i className="ri-add-line"></i>
+        </button>
+        <button
+          onClick={() => setQuantityProductMinus(_id)}
+          className="font-semibold hover:scale-[103%] duration-200"
+        >
+          <i className="ri-subtract-line"></i>
+        </button>
+      </div>
+    </div>
+  );
+
   function setQuantityProductPlus(id) {
     const productsCartUpdated = productsCart.map((productCart) => {
       if (productCart.product._id === id) {
@@ -62,41 +104,26 @@ function ProductCart({ product }) {
 
   return (
     <tr className="border-b-[1px] border-gray-200">
-      <td className="flex items-center px-5 py-2">
+      <td className="flex items-center px-2 lg:px-5 py-2">
         <button
           onClick={() => deleteProductCart(_id)}
-          className="flex items-center mx-3 justify-center text-xs p-1 gap-1 bg-red-400 text-white rounded-md hover:scale-[103%] duration-200"
+          className="flex items-center lg:mx-3 justify-center text-xs hover:scale-[103%] duration-200"
         >
-          <i className="ri-close-line text-[16px] font-semibold"></i>
+          <i className="ri-close-line text-lg font-semibold text-gray-600"></i>
         </button>
         <img
           src={img_url}
           alt={img}
-          className="h-24 mx-3 object-cover rounded-md"
+          className="h-12 lg:h-24 mx-1 lg:mx-3 object-cover rounded-md"
         />
-        <p className="text-sm font-normal mx-3">{name}</p>
+        <p className="text-xs md:text-sm font-normal text-center lg:mx-3">{name}</p>
       </td>
       <td>
-        <div className="flex justify-center items-center space-x-3">
-          <button
-            onClick={() => setQuantityProductMinus(_id)}
-            className="bg-red-400 text-white px-1 rounded-full"
-          >
-            <i className="ri-subtract-line"></i>
-          </button>
-          <p className="text-sm font-normal px-2 py-0.5 border-2 border-gray-200 rounded-md shadow">
-            {product.quantity}
-          </p>
-          <button
-            onClick={() => setQuantityProductPlus(_id)}
-            className="bg-green-400 text-white px-1 rounded-full"
-          >
-            <i className="ri-add-line"></i>
-          </button>
-        </div>
+        {quantityrender}
+        {quantityrenderMobile}
       </td>
       <td className="text-center">
-        <p className="text-sm font-semibold">$ {product.total}</p>
+        <p className="text-xs md:text-sm font-semibold">$ {product.total}</p>
       </td>
     </tr>
   );
