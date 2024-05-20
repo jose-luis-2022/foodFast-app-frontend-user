@@ -1,25 +1,16 @@
-import {useContext} from "react";
+import { useContext } from "react";
 import Swal from "sweetalert2";
 import axiosClient from "../../config/axios";
 import { AppContext } from "../../../context/appContext";
 
-function OrderRow({ order, setOrderDetail }) {
-  const {
-    _id,
-    client,
-    address,
-    total,
-    order_date,
-    status,
-  } = order;
+function OrderCardMobile({ order, setOrderDetail }) {
+  const { _id, client, total, order_date, address, status } = order;
+  const { setIsOpenProductDetails } = useContext(AppContext);
 
-  const {setIsOpenProductDetails} = useContext(AppContext);
-
-  async function watchOrderDetails(order){
+  async function watchOrderDetails(order) {
     setOrderDetail(order);
     setIsOpenProductDetails(true);
   }
-
 
   async function editOrder(id) {
     const { value: newAddress } = await Swal.fire({
@@ -68,35 +59,42 @@ function OrderRow({ order, setOrderDetail }) {
   }
 
   return (
-    <tr className="border-b-[1px] border-gray-200">
-      <td className="flex items-center justify-center py-3">
-        <p className="text-sm font-normal mx-3">{_id}</p>
-      </td>
-      <td className="text-center">
-        <p className="text-sm font-semibold">$ {total}</p>
-      </td>
-      <td className="text-center">
-        <p className="text-sm font-semibold">{order_date}</p>
-      </td>
-      <td className="text-center">
-        <p className="text-sm font-semibold">{address}</p>
-      </td>
-      <td className="text-center">
-        <p
-          className={`${
-            status === "In line"
-              ? "bg-gray-400"
-              : status === "Preparing"
-              ? "bg-yellow-400"
-              : status === "Delivering"
-              ? "bg-blue-400"
-              : "bg-green-400"
-          } text-sm inline-block py-0.5 px-2 rounded-md text-white font-semibold`}
-        >
-          {status}
-        </p>
-      </td>
-      <td className="flex justify-center space-x-3">
+    <section className="flex w-full h-full gap-5 p-3 bg-white rounded-lg shadow-md">
+      <section className="flex flex-col space-y-1">
+        <div className="flex items-center gap-5">
+          <i className="ri-price-tag-3-fill"></i>
+          <p className="text-[15px]">{_id}</p>
+        </div>
+        <div className="flex items-center gap-5">
+          <i className="ri-calendar-fill"></i>
+          <p className="text-[15px]">{order_date}</p>
+        </div>
+        <div className="flex items-center gap-5">
+          <i className="ri-money-dollar-circle-fill"></i>
+          <p className="text-[15px]">$ {total}</p>
+        </div>
+        <div className="flex items-center gap-5">
+          <i className="ri-home-2-fill"></i>
+          <p className="text-[15px]">{address}</p>
+        </div>
+        <div className="flex items-center gap-5">
+          <i className="ri-progress-1-line"></i>
+          <p
+            className={`${
+              status === "In line"
+                ? "bg-gray-400"
+                : status === "Preparing"
+                ? "bg-yellow-400"
+                : status === "Delivering"
+                ? "bg-blue-400"
+                : "bg-green-400"
+            } text-[15px] inline-block py-0.5 px-2 rounded-md text-white font-semibold `}
+          >
+            {status}
+          </p>
+        </div>
+      </section>
+      <section className="flex flex-col justify-around">
         <button
           onClick={() => watchOrderDetails(order)}
           className="py-0.5 px-1.5 bg-gray-300 rounded-md"
@@ -115,9 +113,9 @@ function OrderRow({ order, setOrderDetail }) {
         >
           <i className="ri-delete-bin-fill text-normal"></i>
         </button>
-      </td>
-    </tr>
+      </section>
+    </section>
   );
 }
 
-export default OrderRow;
+export default OrderCardMobile;

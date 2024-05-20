@@ -4,6 +4,7 @@ import axiosClient from "../../config/axios";
 import OrderRow from "../orders/OrderRow";
 import MessageMixin from "../tools/MessageMixin";
 import ProductDetails from "../products/ProductDetails";
+import OrderCardMobile from "../orders/OrderCardMobile";
 import Loader from "../tools/Loader";
 
 function MyOrders() {
@@ -51,9 +52,9 @@ function MyOrders() {
       <div
         className={`${
           orders.length === 0 ? "hidden" : "flex"
-        } p-5 bg-white w-11/12 mx-auto max-h-[500px] overflow-y-scroll`}
+        } p-5 bg-white w-11/12 mx-auto max-h-[550px] overflow-y-scroll`}
       >
-        <table className="w-full">
+        <table className="w-full hidden md:block">
           <tbody>
             <tr>
               <th className="w-[15%] text-xs uppercase text-gray-600">
@@ -82,13 +83,28 @@ function MyOrders() {
             ))}
           </tbody>
         </table>
+        <div className="flex flex-col space-y-1 md:hidden py-2 w-full overflow-y-scroll">
+          {orders.map((order) => (
+            <OrderCardMobile
+              key={order._id}
+              order={order}
+              setOrderDetail={setOrderDetail}
+            />
+          ))}
+        </div>
       </div>
-      <div className= {`${loadingOrders ? "flex" : "hidden"} justify-center py-20`}>{loadingSection()}</div>
+      <div
+        className={`${
+          loadingOrders ? "flex" : "hidden"
+        } justify-center py-20`}
+      >
+        {loadingSection()}
+      </div>
       {isOpenProductDetails && <ProductDetails orderDetail={orderDetail} />}
       <div
         className={`${
           orders.length === 0 && !loadingOrders ? "flex" : "hidden"
-        } w-full justify-center items-center pt-20`}
+        } w-full justify-center items-center h-[50vh]`}
       >
         <div className="flex flex-col justify-center items-center space-y-3">
           <i className="ri-information-line text-4xl text-blue-200"></i>

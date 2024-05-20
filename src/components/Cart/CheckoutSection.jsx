@@ -55,6 +55,8 @@ function CheckoutSection() {
               order_time_minute: date.getMinutes(),
             };
 
+            console.log(order)
+
             await axiosClient.post("/orders", order).then((res) => {
               if (res.status === 200) {
                 localStorage.removeItem("productsCart");

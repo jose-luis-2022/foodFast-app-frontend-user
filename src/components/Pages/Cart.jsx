@@ -8,9 +8,16 @@ function Cart() {
 
   return (
     <div className="h-[70vh] lg:my-10 font-Mulish flex flex-col lg:justify-center lg:flex-row px-5 sm:px-0">
+      <h1
+        className={`${
+          productsCart.length === 0 ? "absolute" : "hidden"
+        } text-2xl w-11/12 text-center font-bold opacity-90`}
+      >
+        My Orders
+      </h1>
       <div
         className={`${
-          productsCart.length === 0 ? "w-10/12 mx-auto" : "w-full lg:w-[60%]"
+          productsCart.length === 0 ? "hidden" : "w-full lg:w-[60%]"
         } bg-white shadow`}
       >
         <div className="w-full px-5 bg-white">
@@ -41,13 +48,6 @@ function Cart() {
             </tbody>
           </table>
         </div>
-        <p
-          className={`${
-            productsCart.length === 0 ? "flex" : "hidden"
-          } text-sm sm:text-normal justify-center mt-5 mb-10`}
-        >
-          There're not products to buy yet
-        </p>
       </div>
       <div className="hidden lg:block">
         <CheckoutSection />
@@ -62,6 +62,16 @@ function Cart() {
           </a>
         </div>
       )}
+      <div
+        className={`${
+          productsCart.length === 0 ? "flex" : "hidden"
+        } w-full justify-center sm:pt-12 h-[50vh] sm:h-[70vh]`}
+      >
+        <div className="flex flex-col justify-center items-center space-y-3">
+          <i className="ri-information-line text-4xl text-blue-200"></i>
+          <p className="text-normal sm:text-lg">There're not products to buy yet</p>
+        </div>
+      </div>
     </div>
   );
 }

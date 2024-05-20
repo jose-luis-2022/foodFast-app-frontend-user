@@ -15,8 +15,12 @@ export function AppProvider({ children }) {
   const messageOrder = localStorage.getItem("messageOrder")
     ? JSON.parse(localStorage.getItem("messageOrder"))
     : "";
+  const messageReservation = localStorage.getItem("messageReservation")
+    ? JSON.parse(localStorage.getItem("messageReservation"))
+    : "";
   const [isConfirmCart, setIsConfirmCart] = useState(false);
   const [isOpenProductDetails, setIsOpenProductDetails] = useState(false);
+  const [isOpenReservationEdit, setIsOpenReservationEdit] = useState(false);
   return (
     <AppContext.Provider
       value={{
@@ -26,10 +30,13 @@ export function AppProvider({ children }) {
         setProductsCart,
         messageCart,
         messageOrder,
+        messageReservation,
         isConfirmCart,
         setIsConfirmCart,
         isOpenProductDetails,
-        setIsOpenProductDetails
+        setIsOpenProductDetails,
+        isOpenReservationEdit,
+        setIsOpenReservationEdit
       }}
     >
       {children}

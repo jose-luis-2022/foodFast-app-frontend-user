@@ -28,7 +28,7 @@ function ProductDetails({ orderDetail }) {
     <div
       className={`${
         isOpenProductDetails ? "absolute" : "hidden"
-      } w-4/12 h-3/5 left-48 right-0 top-32 m-auto p-5 bg-white opacity-95 shadow rounded-lg`}
+      } w-10/12 sm:w-4/12 h-2/4 sm:h-3/5 left-0 sm:left-48 right-0 top-40 sm:top-32 m-auto p-5 bg-white opacity-95 shadow rounded-lg`}
     >
       <div className="w-full flex justify-between p-3 border-b-[1px] border-gray-400">
         <p className="text-lg font-semibold">Order Detail</p>
