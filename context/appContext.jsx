@@ -21,6 +21,7 @@ export function AppProvider({ children }) {
   const [isConfirmCart, setIsConfirmCart] = useState(false);
   const [isOpenProductDetails, setIsOpenProductDetails] = useState(false);
   const [isOpenReservationEdit, setIsOpenReservationEdit] = useState(false);
+  const [isOpenReservationDetail, setIsOpenReservationDetail] = useState(false);
   return (
     <AppContext.Provider
       value={{
@@ -36,7 +37,9 @@ export function AppProvider({ children }) {
         isOpenProductDetails,
         setIsOpenProductDetails,
         isOpenReservationEdit,
-        setIsOpenReservationEdit
+        setIsOpenReservationEdit,
+        isOpenReservationDetail,
+        setIsOpenReservationDetail
       }}
     >
       {children}

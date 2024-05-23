@@ -83,7 +83,7 @@ function MyOrders() {
             ))}
           </tbody>
         </table>
-        <div className="flex flex-col space-y-1 md:hidden py-2 w-full overflow-y-scroll">
+        <div className="flex flex-col mx-auto space-y-1 md:hidden py-2 overflow-y-scroll">
           {orders.map((order) => (
             <OrderCardMobile
               key={order._id}

@@ -6,12 +6,19 @@ import Loader from "../tools/Loader";
 import MessageMixin from "../tools/MessageMixin";
 import ReservationRow from "../Reservations/ReservationRow";
 import ReservationEdit from "../Reservations/ReservationEdit";
+import ReservationCardMobile from "../Reservations/ReservationCardMobile";
+import ReservationDetailMobile from "../Reservations/ReservationDetailMobile";
 
 function MyReservations() {
   const [reservations, setReservations] = useState([]);
   const [loadingReservations, setLoadingReservations] = useState(true);
-  const { messageReservation, isOpenReservationEdit } = useContext(AppContext);
+  const {
+    messageReservation,
+    isOpenReservationEdit,
+    isOpenReservationDetail,
+  } = useContext(AppContext);
   const [reservationToUpdate, setReservationToUpdate] = useState({});
+  const [reservationDetail, setReservationDetail] = useState({});
 
   const apiQuery = async () => {
     const response = await axiosClient.get("/reservations");
@@ -49,7 +56,8 @@ function MyReservations() {
     await Swal.fire({
       customClass: {
         title: "text-[20px]",
-        confirmButton: "px-4 py-1"
+        confirmButton: "px-4 py-1",
+        cancelButton: "px-4 py-1",
       },
       titleText: "Reservation Details",
       html: `
@@ -78,13 +86,13 @@ function MyReservations() {
       focusConfirm: false,
       confirmButtonText: "Save",
       confirmButtonColor: "#9DA976",
+      showCancelButton: true,
       preConfirm: async () => {
         const date = new Date(
           `${document.getElementById("date").value}T00:00:00`
         ).toLocaleDateString();
         const time = document.getElementById("time").value;
         const suggestions = document.getElementById("suggestions").value;
-
 
         if (!document.getElementById("date").value || !time || !suggestions) {
           return Swal.showValidationMessage(`All fields are required.`);
@@ -117,7 +125,7 @@ function MyReservations() {
       </h1>
       <button
         onClick={() => createReservation()}
-        className="flex gap-2 justify-center items-center px-2 py-1 rounded-md bg-[#90caf9] text-white text-sm font-semibold hover:scale-105 duration-700"
+        className="flex gap-2 justify-center items-center px-2 py-1 rounded-md bg-[#90caf9] text-white text-sm font-semibold hover:scale-105 duration-700 ml-5 md:ml-0"
       >
         <i className="ri-add-line"></i>
         <p>Reservation</p>
@@ -127,7 +135,7 @@ function MyReservations() {
           reservations.length === 0 ? "hidden" : "flex"
         } p-5 bg-white w-11/12 mx-auto max-h-[500px] overflow-y-scroll`}
       >
-        <table className="w-full">
+        <table className="w-full hidden md:block">
           <tbody>
             <tr>
               <th className="w-[15%] text-xs uppercase text-gray-600">
@@ -151,6 +159,16 @@ function MyReservations() {
             ))}
           </tbody>
         </table>
+        <div className="flex flex-col mx-auto space-y-1 md:hidden py-2 overflow-y-scroll">
+          {reservations.map((reservation) => (
+            <ReservationCardMobile
+              key={reservation._id}
+              reservation={reservation}
+              setReservationDetail={setReservationDetail}
+              setReservationToUpdate={setReservationToUpdate}
+            />
+          ))}
+        </div>
       </div>
       <div
         className={`${
@@ -162,6 +180,7 @@ function MyReservations() {
       {isOpenReservationEdit && (
         <ReservationEdit reservationToUpdate={reservationToUpdate} />
       )}
+      {isOpenReservationDetail && <ReservationDetailMobile suggestions={reservationDetail} />}
     </div>
   );
 }

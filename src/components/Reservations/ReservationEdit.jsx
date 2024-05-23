@@ -46,7 +46,7 @@ function ReservationEdit({ reservationToUpdate }) {
     <div
       className={`${
         isOpenReservationEdit ? "absolute" : "hidden"
-      } w-4/12 h-3/5 left-48 right-0 top-32 m-auto p-5 bg-white opacity-95 shadow rounded-lg`}
+      } w-10/12 md:w-3/12 md:h-3/5 md:left-48 md:right-0 top-48 left-8 md:top-32 md:m-auto p-5 bg-white opacity-95 shadow rounded-lg`}
     >
       <div className="w-full flex justify-between p-3 border-b-[1px] border-gray-400">
         <p className="text-lg font-semibold">Edit Reservation</p>
@@ -63,7 +63,7 @@ function ReservationEdit({ reservationToUpdate }) {
           <input
             id="date"
             type="date"
-            value={`${previousReservationDateFormated[2]}-${
+            defaultValue={`${previousReservationDateFormated[2]}-${
               previousReservationDateFormated[1].length < 2
                 ? "0" + previousReservationDateFormated[1]
                 : previousReservationDateFormated[1]
@@ -103,6 +103,11 @@ function ReservationEdit({ reservationToUpdate }) {
         <div className="w-full flex justify-center">
           <button
             onClick={() => updateReservation(_id)}
+            disabled={
+              dateUpdated === previousReservationDate &&
+              timeUpdated === previousReservationTime &&
+              suggestionsUpdated === previousSuggestions
+            }
             className="bg-yellow-300 flex items-center justify-center px-3 py-2 rounded-md text-sm font-bold hover:scale-[103%] duration-500"
           >
             <div className="flex items-center gap-2">

@@ -59,23 +59,23 @@ function OrderCardMobile({ order, setOrderDetail }) {
   }
 
   return (
-    <section className="flex w-full h-full gap-5 p-3 bg-white rounded-lg shadow-md">
+    <section className="flex w-full h-full gap-5 py-2 px-1 bg-white shadow-md">
       <section className="flex flex-col space-y-1">
         <div className="flex items-center gap-5">
           <i className="ri-price-tag-3-fill"></i>
-          <p className="text-[15px]">{_id}</p>
+          <p className="text-[14px]">{_id}</p>
         </div>
         <div className="flex items-center gap-5">
           <i className="ri-calendar-fill"></i>
-          <p className="text-[15px]">{order_date}</p>
+          <p className="text-[14px]">{order_date}</p>
         </div>
         <div className="flex items-center gap-5">
           <i className="ri-money-dollar-circle-fill"></i>
-          <p className="text-[15px]">$ {total}</p>
+          <p className="text-[14px]">$ {total}</p>
         </div>
         <div className="flex items-center gap-5">
           <i className="ri-home-2-fill"></i>
-          <p className="text-[15px]">{address}</p>
+          <p className="text-[14px]">{address}</p>
         </div>
         <div className="flex items-center gap-5">
           <i className="ri-progress-1-line"></i>
@@ -88,13 +88,13 @@ function OrderCardMobile({ order, setOrderDetail }) {
                 : status === "Delivering"
                 ? "bg-blue-400"
                 : "bg-green-400"
-            } text-[15px] inline-block py-0.5 px-2 rounded-md text-white font-semibold `}
+            } text-[14px] inline-block py-0.5 px-2 rounded-md text-white font-semibold `}
           >
             {status}
           </p>
         </div>
       </section>
-      <section className="flex flex-col justify-around">
+      <section className="flex flex-col text-sm justify-around">
         <button
           onClick={() => watchOrderDetails(order)}
           className="py-0.5 px-1.5 bg-gray-300 rounded-md"
