@@ -1,4 +1,6 @@
 import { useEffect, useContext, useState } from "react";
+import Header from "../layout/Header";
+import Sidebar from "../layout/Sidebar";
 import axiosClient from "../../config/axios";
 import ProductCard from "../products/ProductCard";
 import { AppContext } from "../../../context/appContext";
@@ -29,7 +31,7 @@ function Home() {
   };
 
   useEffect(() => {
-    setProducts([])
+    setProducts([]);
     setTimeout(function () {
       apiQuery();
     }, 1000);
@@ -48,16 +50,24 @@ function Home() {
   };
 
   return (
-    <div className="my-5 font-Mulish space-y-5">
-      <h1 className="text-2xl text-center font-bold opacity-90">Products</h1>
-      <div className="relative flex justify-center">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:h-[850px] lg:h-[550px] overflow-y-scroll scrollbar-hide">
-          {products.map((product) => (
-            <ProductCard key={product._id} product={product} />
-          ))}
+    <div className="bg-[#f8f9fa]">
+      <Header />
+      <main className="w-full flex flex-col md:flex-row">
+        <Sidebar />
+        <div className="md:w-[85%] my-5 font-Mulish space-y-5">
+          <h1 className="text-2xl text-center font-bold opacity-90">
+            Products
+          </h1>
+          <div className="relative flex justify-center">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:h-[850px] lg:h-[550px] overflow-y-scroll scrollbar-hide">
+              {products.map((product) => (
+                <ProductCard key={product._id} product={product} />
+              ))}
+            </div>
+            <div className="absolute flex py-36">{loadingSection()}</div>
+          </div>
         </div>
-        <div className="absolute flex py-36">{loadingSection()}</div>
-      </div>
+      </main>
     </div>
   );
 }

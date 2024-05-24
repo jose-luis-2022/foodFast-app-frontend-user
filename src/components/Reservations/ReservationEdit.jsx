@@ -57,9 +57,9 @@ function ReservationEdit({ reservationToUpdate }) {
           <i className="ri-close-line text-xl"></i>
         </button>
       </div>
-      <div className="mt-5 space-y-5 px-5 py-5">
+      <div className="mt-5 space-y-5 px-2 py-5">
         <div className="w-full flex justify-center gap-3">
-          <p>Reservation Date</p>
+          <p className="w-[70%]">Reservation Date</p>
           <input
             id="date"
             type="date"

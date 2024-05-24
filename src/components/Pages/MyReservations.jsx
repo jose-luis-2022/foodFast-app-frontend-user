@@ -8,15 +8,14 @@ import ReservationRow from "../Reservations/ReservationRow";
 import ReservationEdit from "../Reservations/ReservationEdit";
 import ReservationCardMobile from "../Reservations/ReservationCardMobile";
 import ReservationDetailMobile from "../Reservations/ReservationDetailMobile";
+import Header from "../layout/Header";
+import Sidebar from "../layout/Sidebar";
 
 function MyReservations() {
   const [reservations, setReservations] = useState([]);
   const [loadingReservations, setLoadingReservations] = useState(true);
-  const {
-    messageReservation,
-    isOpenReservationEdit,
-    isOpenReservationDetail,
-  } = useContext(AppContext);
+  const { messageReservation, isOpenReservationEdit, isOpenReservationDetail } =
+    useContext(AppContext);
   const [reservationToUpdate, setReservationToUpdate] = useState({});
   const [reservationDetail, setReservationDetail] = useState({});
 
@@ -119,68 +118,80 @@ function MyReservations() {
   }
 
   return (
-    <div className="my-10 font-Mulish space-y-10">
-      <h1 className="text-2xl text-center font-bold opacity-90">
-        My Reservations
-      </h1>
-      <button
-        onClick={() => createReservation()}
-        className="flex gap-2 justify-center items-center px-2 py-1 rounded-md bg-[#90caf9] text-white text-sm font-semibold hover:scale-105 duration-700 ml-5 md:ml-0"
-      >
-        <i className="ri-add-line"></i>
-        <p>Reservation</p>
-      </button>
-      <div
-        className={`${
-          reservations.length === 0 ? "hidden" : "flex"
-        } p-5 bg-white w-11/12 mx-auto max-h-[500px] overflow-y-scroll`}
-      >
-        <table className="w-full hidden md:block">
-          <tbody>
-            <tr>
-              <th className="w-[15%] text-xs uppercase text-gray-600">
-                Reservation number
-              </th>
-              <th className="w-[20%] text-xs uppercase text-gray-600">Date</th>
-              <th className="w-[20%] text-xs uppercase text-gray-600">Time</th>
-              <th className="w-[25%] text-xs uppercase text-gray-600">
-                Suggestions
-              </th>
-              <th className="w-[20%] text-xs uppercase text-gray-600">
-                Options
-              </th>
-            </tr>
-            {reservations.map((reservation) => (
-              <ReservationRow
-                key={reservation._id}
-                reservation={reservation}
-                setReservationToUpdate={setReservationToUpdate}
-              />
-            ))}
-          </tbody>
-        </table>
-        <div className="flex flex-col mx-auto space-y-1 md:hidden py-2 overflow-y-scroll">
-          {reservations.map((reservation) => (
-            <ReservationCardMobile
-              key={reservation._id}
-              reservation={reservation}
-              setReservationDetail={setReservationDetail}
-              setReservationToUpdate={setReservationToUpdate}
-            />
-          ))}
+    <div className="bg-[#f8f9fa]">
+      <Header />
+      <main className="w-full flex flex-col md:flex-row">
+        <Sidebar />
+        <div className="md:w-[85%] my-10 font-Mulish space-y-10">
+          <h1 className="text-2xl text-center font-bold opacity-90">
+            My Reservations
+          </h1>
+          <button
+            onClick={() => createReservation()}
+            className="flex gap-2 justify-center items-center px-2 py-1 rounded-md bg-[#90caf9] text-white text-sm font-semibold hover:scale-105 duration-700 ml-5 md:ml-0"
+          >
+            <i className="ri-add-line"></i>
+            <p>Reservation</p>
+          </button>
+          <div
+            className={`${
+              reservations.length === 0 ? "hidden" : "flex"
+            } p-5 bg-white w-11/12 mx-auto max-h-[500px] overflow-y-scroll`}
+          >
+            <table className="w-full hidden md:block">
+              <tbody>
+                <tr>
+                  <th className="w-[15%] text-xs uppercase text-gray-600">
+                    Reservation number
+                  </th>
+                  <th className="w-[20%] text-xs uppercase text-gray-600">
+                    Date
+                  </th>
+                  <th className="w-[20%] text-xs uppercase text-gray-600">
+                    Time
+                  </th>
+                  <th className="w-[25%] text-xs uppercase text-gray-600">
+                    Suggestions
+                  </th>
+                  <th className="w-[20%] text-xs uppercase text-gray-600">
+                    Options
+                  </th>
+                </tr>
+                {reservations.map((reservation) => (
+                  <ReservationRow
+                    key={reservation._id}
+                    reservation={reservation}
+                    setReservationToUpdate={setReservationToUpdate}
+                  />
+                ))}
+              </tbody>
+            </table>
+            <div className="flex flex-col mx-auto space-y-1 md:hidden py-2 overflow-y-scroll">
+              {reservations.map((reservation) => (
+                <ReservationCardMobile
+                  key={reservation._id}
+                  reservation={reservation}
+                  setReservationDetail={setReservationDetail}
+                  setReservationToUpdate={setReservationToUpdate}
+                />
+              ))}
+            </div>
+          </div>
+          <div
+            className={`${
+              loadingReservations ? "flex" : "hidden"
+            } justify-center py-20`}
+          >
+            {loadingSection()}
+          </div>
+          {isOpenReservationEdit && (
+            <ReservationEdit reservationToUpdate={reservationToUpdate} />
+          )}
+          {isOpenReservationDetail && (
+            <ReservationDetailMobile suggestions={reservationDetail} />
+          )}
         </div>
-      </div>
-      <div
-        className={`${
-          loadingReservations ? "flex" : "hidden"
-        } justify-center py-20`}
-      >
-        {loadingSection()}
-      </div>
-      {isOpenReservationEdit && (
-        <ReservationEdit reservationToUpdate={reservationToUpdate} />
-      )}
-      {isOpenReservationDetail && <ReservationDetailMobile suggestions={reservationDetail} />}
+      </main>
     </div>
   );
 }

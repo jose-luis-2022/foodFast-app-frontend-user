@@ -11,40 +11,21 @@ import Cart from "./components/Pages/Cart";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./app.css";
 
-const render = (
-  <BrowserRouter>
-    <div className="bg-gray-100">
+function App() {
+  return (
+    <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/my-orders" element={<MyOrders />} />
+        <Route path="/my-reservations" element={<MyReservations />} />
+        <Route path="/my-profile" element={<MyProfile />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/order-checkout" element={<CheckoutSection />} />
       </Routes>
-    </div>
-  </BrowserRouter>
-);
-
-const renderClientPages = (
-  <BrowserRouter>
-    <div className="bg-[#f8f9fa]">
-      <Header />
-      <div className="flex flex-col md:flex-row md:pr-20">
-        <Sidebar />
-        <main className="w-full">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/my-orders" element={<MyOrders />} />
-            <Route path="/my-reservations" element={<MyReservations />} />
-            <Route path="/my-profile" element={<MyProfile />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/order-checkout" element={<CheckoutSection />} />
-          </Routes>
-        </main>
-      </div>
-    </div>
-  </BrowserRouter>
-);
-
-function App() {
-  return renderClientPages;
+    </BrowserRouter>
+  );
 }
 
 export default App;
