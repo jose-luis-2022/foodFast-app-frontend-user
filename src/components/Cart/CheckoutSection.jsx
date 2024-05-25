@@ -69,7 +69,7 @@ function CheckoutSection() {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
               },
             }).then((res) => {
-              if (res.status === 200) {
+              if (res.status === 201) {
                 localStorage.removeItem("productsCart");
                 localStorage.setItem(
                   "messageCart",

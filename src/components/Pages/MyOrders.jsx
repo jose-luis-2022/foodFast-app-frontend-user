@@ -15,15 +15,12 @@ function MyOrders() {
   const [orderDetail, setOrderDetail] = useState({});
   const { isOpenProductDetails } = useContext(AppContext);
   const [loadingOrders, setLoadingOrders] = useState(true);
+  const _id = localStorage.getItem("_id");
 
   const apiQuery = async () => {
     const response = await axiosClient.get("/orders");
     if (response.data.length > 0) {
-      setOrders(
-        response.data.filter(
-          (order) => order.client._id === "662d78ffc0c58d5720dabbc4"
-        )
-      );
+      setOrders(response.data.filter((order) => order.client._id === _id));
     } else {
       setOrders([]);
     }

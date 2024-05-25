@@ -1,12 +1,22 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import axiosClient from "../../config/axios";
+import MessageMixin from "../tools/MessageMixin";
+import { AppContext } from "../../../context/appContext";
 
 function Login() {
   const navigateTo = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { messageClient } = useContext(AppContext);
+
+  useEffect(() => {
+    if (messageClient) {
+      MessageMixin(messageClient);
+      localStorage.removeItem("messageClient");
+    }
+  },[])
 
   async function handleLogin(e) {
     e.preventDefault();

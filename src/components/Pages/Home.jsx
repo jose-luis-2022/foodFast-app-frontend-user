@@ -14,8 +14,6 @@ function Home() {
 
   const [loadingProducts, setLoadingProducts] = useState(true);
 
-  const navigateTo = useNavigate();
-
   const apiQuery = async () => {
     const response = await axiosClient.get("/products");
     setProducts(

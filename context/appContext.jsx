@@ -18,6 +18,9 @@ export function AppProvider({ children }) {
   const messageReservation = localStorage.getItem("messageReservation")
     ? JSON.parse(localStorage.getItem("messageReservation"))
     : "";
+  const messageClient = localStorage.getItem("messageClient")
+  ? JSON.parse(localStorage.getItem("messageClient"))
+  : "";
   const [isConfirmCart, setIsConfirmCart] = useState(false);
   const [isOpenProductDetails, setIsOpenProductDetails] = useState(false);
   const [isOpenReservationEdit, setIsOpenReservationEdit] = useState(false);
@@ -32,6 +35,7 @@ export function AppProvider({ children }) {
         messageCart,
         messageOrder,
         messageReservation,
+        messageClient,
         isConfirmCart,
         setIsConfirmCart,
         isOpenProductDetails,

@@ -109,7 +109,7 @@ function MyReservations() {
               },
             })
             .then((res) => {
-              if (res.status === 200) {
+              if (res.status === 201) {
                 localStorage.setItem(
                   "messageReservation",
                   JSON.stringify(res.data.message)
