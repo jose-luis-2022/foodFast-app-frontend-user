@@ -30,12 +30,16 @@ function ReservationEdit({ reservationToUpdate }) {
     };
 
     await axiosClient
-      .patch(`/reservations/${_id}`, reservationUpdated)
-      .then((res) => {
-        if (res.status === 200) {
+      .patch(`/reservations/${_id}`, reservationUpdated, {
+        headers: {
+           Authorization: `Bearer ${localStorage.getItem("token")}`,
+         },
+      })
+      .then((response) => {
+        if (response.status === 200) {
           localStorage.setItem(
             "messageReservation",
-            JSON.stringify(res.data.message)
+            JSON.stringify(response.data.message)
           );
           window.location.href = "/my-reservations";
         }

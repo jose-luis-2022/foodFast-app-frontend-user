@@ -1,4 +1,5 @@
 import { useEffect, useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "../layout/Header";
 import Sidebar from "../layout/Sidebar";
 import axiosClient from "../../config/axios";
@@ -12,6 +13,8 @@ function Home() {
     useContext(AppContext);
 
   const [loadingProducts, setLoadingProducts] = useState(true);
+
+  const navigateTo = useNavigate();
 
   const apiQuery = async () => {
     const response = await axiosClient.get("/products");

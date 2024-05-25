@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { AppContext } from "../../../context/appContext";
 import Header from "../layout/Header";
-import Sidebar from "../layout/Sidebar";  
+import Sidebar from "../layout/Sidebar";
 import axiosClient from "../../config/axios";
 import Swal from "sweetalert2";
 import Spinner from "../tools/Spinner";
@@ -12,9 +12,16 @@ function CheckoutSection() {
   const [suggestions, setSuggestions] = useState("");
   const [loading, setLoading] = useState(false);
   const date = new Date();
+  const _id = localStorage.getItem("_id");
 
   function sendOrder() {
     Swal.fire({
+      customClass: {
+        title: "text-[20px]",
+        popup: "text-sm",
+        confirmButton: "px-3 py-1",
+        cancelButton: "px-3 py-1",
+      },
       text: "Do you want to send the order?",
       icon: "question",
       showCancelButton: true,
@@ -34,7 +41,7 @@ function CheckoutSection() {
           setLoading(true);
           setTimeout(async () => {
             const order = {
-              client: "662d78ffc0c58d5720dabbc4",
+              client: _id,
               address: address,
               order: productsCart.map((productCart) => {
                 return {
@@ -57,9 +64,11 @@ function CheckoutSection() {
               order_time_minute: date.getMinutes(),
             };
 
-            console.log(order);
-
-            await axiosClient.post("/orders", order).then((res) => {
+            await axiosClient.post("/orders", order, {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }).then((res) => {
               if (res.status === 200) {
                 localStorage.removeItem("productsCart");
                 localStorage.setItem(
@@ -79,9 +88,13 @@ function CheckoutSection() {
 
   return (
     <div className="bg-[#f8f9fa]">
-      <Header />
+      <div className="md:hidden">
+        <Header />
+      </div>
       <main className="w-full flex flex-col md:flex-row">
-        <Sidebar />
+        <div className="md:hidden flex justify-center">
+          <Sidebar />
+        </div>
         <div
           className={`${
             productsCart.length === 0 ? "hidden" : "flex"

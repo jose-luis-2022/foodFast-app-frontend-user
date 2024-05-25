@@ -26,8 +26,12 @@ function OrderCardMobile({ order, setOrderDetail }) {
     });
     if (newAddress) {
       await axiosClient
-        .patch(`/orders/${id}`, { address: newAddress })
-        .then((res) => {
+        .patch(`/orders/${id}`, { address: newAddress }, {
+          headers: {
+             Authorization: `Bearer ${localStorage.getItem("token")}`,
+           },
+        })
+        .then((response) => {
           localStorage.setItem(
             "messageOrder",
             JSON.stringify("The address has been updated!")
@@ -47,10 +51,14 @@ function OrderCardMobile({ order, setOrderDetail }) {
       confirmButtonText: "Yes",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        await axiosClient.delete(`/orders/${id}`, order).then((res) => {
+        await axiosClient.delete(`/orders/${id}`, order, {
+          headers: {
+             Authorization: `Bearer ${localStorage.getItem("token")}`,
+           },
+        }).then((response) => {
           localStorage.setItem(
             "messageOrder",
-            JSON.stringify(res.data.message)
+            JSON.stringify(response.data.message)
           );
           window.location.href = "/my-orders";
         });

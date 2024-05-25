@@ -1,9 +1,17 @@
 import React, { useContext } from "react";
 import { AppContext } from "../../../context/appContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Header() {
   const { productsCart } = useContext(AppContext);
+  const navigateTo = useNavigate();
+
+  function handleLogOut() {
+    navigateTo("/login");
+    localStorage.removeItem("token");
+    localStorage.removeItem("_id");
+    localStorage.removeItem("productsCart");
+  }
 
   const renderCart =
     productsCart.length > 0 ? (
@@ -26,7 +34,7 @@ function Header() {
   return (
     <header className="bg-[#3e5c76] font-Mulish flex justify-between px-5 md:px-12 lg:px-16 py-1 text-gray-50 shadow">
       <div className="flex lg:flex-1">
-        <a href="#" className="flex items-center gap-2 m-1.5 p-1.5">
+        <a href="/" className="flex items-center gap-2 m-1.5 p-1.5">
           <img
             className="h-6 mb-[1px]"
             src="/src/assets/icon-restaurant.png"
@@ -40,12 +48,13 @@ function Header() {
 
       <div className="flex items-center">
         {renderCart}
-        <a
+        <button
           href="#"
           className="flex items-center rounded-lg px-2 py-1 hover:scale-[103%] duration-700"
+          onClick={() => handleLogOut()}
         >
           <i className="ri-logout-box-r-line text-xl"></i>
-        </a>
+        </button>
       </div>
     </header>
   );

@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 import axiosClient from "../../config/axios";
 
 function Login() {
-
+  const navigateTo = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -12,15 +14,51 @@ function Login() {
       email,
       password,
     };
-    
+
+    if (!email || !password) {
+      return Swal.fire({
+        customClass: {
+          title: "text-[20px]",
+          popup: "text-sm",
+          confirmButton: "px-3 py-1",
+        },
+        type: "error",
+        icon: "error",
+        title: "There was an error",
+        text: "Please fill all the fields",
+      });
+    }
+
     try {
       await axiosClient.post("/auth/login", credetentials).then((response) => {
-        console.log(response);
+        setEmail("");
+        setPassword("");
+        const { token, _id } = response.data;
+        localStorage.setItem("token", token);
+        localStorage.setItem("_id", _id);
+        Swal.fire({
+          customClass: {
+            title: "text-[20px]",
+            popup: "text-sm",
+            confirmButton: "px-3 py-1",
+          },
+          type: "success",
+          icon: "success",
+          title: "Welcome back",
+          text: "You have successfully logged in",
+        });
+        navigateTo("/");
       });
-      setEmail("");
-      setPassword("");  
     } catch (error) {
-        console.log(error)
+      return Swal.fire({
+        customClass: {
+          title: "text-[23px]",
+        },
+        type: "error",
+        icon: "error",
+        title: "There was an error",
+        text: error.response.data.message,
+      });
     }
   }
 
@@ -33,7 +71,7 @@ function Login() {
             src="/src/assets/icon-restaurant.png"
             alt="Gourmet Restaurant"
           />
-          <h4 className="font-Dancing text-4xl font-bold">Gourmet</h4>
+          <h4 className="font-Dancing text-4xl font-bold">Fast Food</h4>
         </div>
 
         <h2 className="mt-10 text-center text-xl font-semibold leading-9 tracking-tight text-gray-900">
@@ -44,9 +82,7 @@ function Login() {
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <form className="space-y-6" action="#" method="POST">
           <div>
-            <label
-              className="block text-sm font-medium leading-6 text-gray-900"
-            >
+            <label className="block text-sm font-medium leading-6 text-gray-900">
               User
             </label>
             <div className="mt-2 relative">
@@ -64,21 +100,9 @@ function Login() {
           </div>
 
           <div>
-            <div className="flex items-center justify-between">
-              <label
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Password
-              </label>
-              <div className="text-sm">
-                <a
-                  href="#"
-                  className="font-semibold text-indigo-600 hover:text-indigo-500"
-                >
-                  Forgot password?
-                </a>
-              </div>
-            </div>
+            <label className="block text-sm font-medium leading-6 text-gray-900">
+              Password
+            </label>
             <div className="mt-2 relative">
               <input
                 id="password"
@@ -107,7 +131,7 @@ function Login() {
         <p className="flex justify-center items-center gap-2 mt-10 text-sm text-gray-500">
           Not registered yet?
           <a
-            href="#"
+            href="/signup"
             className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
           >
             Create an account

@@ -18,14 +18,13 @@ function MyReservations() {
     useContext(AppContext);
   const [reservationToUpdate, setReservationToUpdate] = useState({});
   const [reservationDetail, setReservationDetail] = useState({});
+  const _id = localStorage.getItem("_id");
 
   const apiQuery = async () => {
     const response = await axiosClient.get("/reservations");
     if (response.data.length > 0) {
       setReservations(
-        response.data.filter(
-          (reservation) => reservation.client._id === "662d78ffc0c58d5720dabbc4"
-        )
+        response.data.filter((reservation) => reservation.client._id === _id)
       );
     } else {
       setReservations([]);
@@ -97,21 +96,27 @@ function MyReservations() {
           return Swal.showValidationMessage(`All fields are required.`);
         } else {
           const reservation = {
-            client: "662d78ffc0c58d5720dabbc4",
+            client: _id,
             suggestions: suggestions,
             reservation_date: date,
             reservation_time: time,
           };
 
-          await axiosClient.post("/reservations", reservation).then((res) => {
-            if (res.status === 200) {
-              localStorage.setItem(
-                "messageReservation",
-                JSON.stringify(res.data.message)
-              );
-              window.location.href = "/my-reservations";
-            }
-          });
+          await axiosClient
+            .post("/reservations", reservation, {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            })
+            .then((res) => {
+              if (res.status === 200) {
+                localStorage.setItem(
+                  "messageReservation",
+                  JSON.stringify(res.data.message)
+                );
+                window.location.href = "/my-reservations";
+              }
+            });
         }
       },
     });
@@ -190,6 +195,18 @@ function MyReservations() {
           {isOpenReservationDetail && (
             <ReservationDetailMobile suggestions={reservationDetail} />
           )}
+          <div
+            className={`${
+              reservations.length === 0 && !loadingReservations
+                ? "flex"
+                : "hidden"
+            } w-full justify-center items-center h-[50vh]`}
+          >
+            <div className="flex flex-col justify-center items-center space-y-3">
+              <i className="ri-information-line text-4xl text-blue-200"></i>
+              <p className="text-lg">There're not reservations yet</p>
+            </div>
+          </div>
         </div>
       </main>
     </div>

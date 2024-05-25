@@ -4,13 +4,8 @@ import Swal from "sweetalert2";
 import axiosClient from "../../config/axios";
 
 function ReservationRow({ reservation, setReservationToUpdate }) {
-  const {
-    _id,
-    client,
-    suggestions,
-    reservation_date,
-    reservation_time
-  } = reservation;
+  const { _id, client, suggestions, reservation_date, reservation_time } =
+    reservation;
 
   const { setIsOpenReservationEdit } = useContext(AppContext);
 
@@ -21,6 +16,11 @@ function ReservationRow({ reservation, setReservationToUpdate }) {
 
   function cancelReservation(id) {
     Swal.fire({
+      customClass: {
+        title: "text-[20px]",
+        confirmButton: "px-4 py-1",
+        cancelButton: "px-4 py-1",
+      },
       text: "Do you want to cancel your reservation?",
       icon: "question",
       showCancelButton: true,
@@ -29,13 +29,20 @@ function ReservationRow({ reservation, setReservationToUpdate }) {
       confirmButtonText: "Yes",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        await axiosClient.delete(`/reservations/${id}`, reservation).then((res) => {
-          localStorage.setItem(
-            "messageReservation",
-            JSON.stringify(res.data.message)
-          );
-          window.location.href = "/my-reservations";
-        });
+        await axiosClient
+          .delete(`/reservations/${id}`, {
+            reservation,
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          })
+          .then((response) => {
+            localStorage.setItem(
+              "messageReservation",
+              JSON.stringify(response.data.message)
+            );
+            window.location.href = "/my-reservations";
+          });
       }
     });
   }
@@ -54,7 +61,7 @@ function ReservationRow({ reservation, setReservationToUpdate }) {
       <td className="text-center">
         <p className="text-sm font-semibold">{suggestions}</p>
       </td>
-    
+
       <td className="flex justify-center space-x-3">
         <button
           onClick={() => editReservation(reservation)}

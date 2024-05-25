@@ -25,6 +25,11 @@ function OrderCardMobile({
 
   function cancelReservation(id) {
     Swal.fire({
+      customClass: {
+        title: "text-[20px]",
+        confirmButton: "px-4 py-1",
+        cancelButton: "px-4 py-1",
+      },
       text: "Do you want to cancel your reservation?",
       icon: "question",
       showCancelButton: true,
@@ -34,11 +39,16 @@ function OrderCardMobile({
     }).then(async (result) => {
       if (result.isConfirmed) {
         await axiosClient
-          .delete(`/reservations/${id}`, reservation)
-          .then((res) => {
+          .delete(`/reservations/${id}`, {
+            reservation,
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          })
+          .then((response) => {
             localStorage.setItem(
               "messageReservation",
-              JSON.stringify(res.data.message)
+              JSON.stringify(response.data.message)
             );
             window.location.href = "/my-reservations";
           });

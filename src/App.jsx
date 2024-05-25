@@ -1,5 +1,4 @@
-import Header from "./components/layout/Header";
-import Sidebar from "./components/layout/Sidebar";
+import ValidationPage from "./components/middlewares/ValidationPage";
 import Login from "./components/Pages/Login";
 import SignUp from "./components/Pages/Signup";
 import Home from "./components/Pages/Home";
@@ -17,12 +16,54 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/" element={<Home />} />
-        <Route path="/my-orders" element={<MyOrders />} />
-        <Route path="/my-reservations" element={<MyReservations />} />
-        <Route path="/my-profile" element={<MyProfile />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/order-checkout" element={<CheckoutSection />} />
+        <Route
+          path="/"
+          element={
+            <ValidationPage>
+              <Home />
+            </ValidationPage>
+          }
+        />
+        <Route
+          path="/my-orders"
+          element={
+            <ValidationPage>
+              <MyOrders />
+            </ValidationPage>
+          }
+        />
+        <Route
+          path="/my-reservations"
+          element={
+            <ValidationPage>
+              <MyReservations />
+            </ValidationPage>
+          }
+        />
+        <Route
+          path="/my-profile"
+          element={
+            <ValidationPage>
+              <MyProfile />
+            </ValidationPage>
+          }
+        />
+        <Route
+          path="/cart"
+          element={
+            <ValidationPage>
+              <Cart />
+            </ValidationPage>
+          }
+        />
+        <Route
+          path="/order-checkout"
+          element={
+            <ValidationPage>
+              <CheckoutSection />
+            </ValidationPage>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

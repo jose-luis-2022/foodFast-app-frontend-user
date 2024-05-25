@@ -10,7 +10,7 @@ function SignUp(){
                 src="/src/assets/icon-restaurant.png"
                 alt="Gourmet Restaurant"
               />
-              <h4 className="font-Dancing text-4xl font-bold">Gourmet</h4>
+              <h4 className="font-Dancing text-4xl font-bold">Fast Food</h4>
             </div>
     
             <h2 className="mt-5 text-center text-xl font-semibold leading-9 tracking-tight text-gray-900">
@@ -130,7 +130,7 @@ function SignUp(){
             <p className="flex justify-center items-center gap-2 mt-3 text-sm text-gray-500">
               Already have an account?
               <a
-                href="#"
+                href="/login"
                 className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
               >
                 Sign in

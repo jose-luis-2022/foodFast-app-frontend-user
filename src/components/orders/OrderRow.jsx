@@ -1,28 +1,25 @@
-import {useContext} from "react";
+import { useContext } from "react";
 import Swal from "sweetalert2";
 import axiosClient from "../../config/axios";
 import { AppContext } from "../../../context/appContext";
 
 function OrderRow({ order, setOrderDetail }) {
-  const {
-    _id,
-    client,
-    address,
-    total,
-    order_date,
-    status,
-  } = order;
+  const { _id, client, address, total, order_date, status } = order;
 
-  const {setIsOpenProductDetails} = useContext(AppContext);
+  const { setIsOpenProductDetails } = useContext(AppContext);
 
-  async function watchOrderDetails(order){
+  async function watchOrderDetails(order) {
     setOrderDetail(order);
     setIsOpenProductDetails(true);
   }
 
-
   async function editOrder(id) {
     const { value: newAddress } = await Swal.fire({
+      customClass: {
+        title: "text-[20px]",
+        confirmButton: "px-4 py-1",
+        cancelButton: "px-4 py-1",
+      },
       title: "Edit your address",
       input: "text",
       inputLabel: "Your new address",
@@ -35,8 +32,16 @@ function OrderRow({ order, setOrderDetail }) {
     });
     if (newAddress) {
       await axiosClient
-        .patch(`/orders/${id}`, { address: newAddress })
-        .then((res) => {
+        .patch(
+          `/orders/${id}`,
+          { address: newAddress },
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        )
+        .then((response) => {
           localStorage.setItem(
             "messageOrder",
             JSON.stringify("The address has been updated!")
@@ -48,6 +53,11 @@ function OrderRow({ order, setOrderDetail }) {
 
   function cancelOrder(id) {
     Swal.fire({
+      customClass: {
+        title: "text-[20px]",
+        confirmButton: "px-4 py-1",
+        cancelButton: "px-4 py-1",
+      },
       text: "Do you want to cancel the order?",
       icon: "question",
       showCancelButton: true,
@@ -56,13 +66,20 @@ function OrderRow({ order, setOrderDetail }) {
       confirmButtonText: "Yes",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        await axiosClient.delete(`/orders/${id}`, order).then((res) => {
-          localStorage.setItem(
-            "messageOrder",
-            JSON.stringify(res.data.message)
-          );
-          window.location.href = "/my-orders";
-        });
+        await axiosClient
+          .delete(`/orders/${id}`, {
+            order,
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          })
+          .then((response) => {
+            localStorage.setItem(
+              "messageOrder",
+              JSON.stringify(response.data.message)
+            );
+            window.location.href = "/my-orders";
+          });
       }
     });
   }
