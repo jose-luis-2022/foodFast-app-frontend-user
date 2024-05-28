@@ -9,13 +9,13 @@ function ProductDetails({ orderDetail }) {
   const renderProductsDetails = order.map((product) => {
     return (
       <div key={product._id} className="flex justify-between items-center mx-5 border-b-[0.5px] border-gray-100">
-        <div className="flex justify-center items-center gap-2 w-3/4">
+        <div className="flex justify-center items-center gap-2 w-3/4 py-3 text-center">
           <img
-            className="h-24"
+            className="h-16 md:h-20 w-[50%] md:w-[40%]"
             src={product.product.img_url}
             alt={product.product.img}
           />
-          <h3 className="font-semibold">{product.product.name}</h3>
+          <h3 className="font-semibold text-sm">{product.product.name}</h3>
         </div>
         <div className="w-1/4 flex justify-center">
           <p className="text-sm font-bold">{product.quantity}</p>

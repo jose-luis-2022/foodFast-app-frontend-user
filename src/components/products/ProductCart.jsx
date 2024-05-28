@@ -104,7 +104,7 @@ function ProductCart({ product }) {
 
   return (
     <tr className="border-b-[1px] border-gray-200">
-      <td className="flex items-center px-2 lg:px-5 py-2">
+      <td className="flex items-center px-2 lg:px-5 py-3">
         <button
           onClick={() => deleteProductCart(_id)}
           className="flex items-center lg:mx-3 justify-center text-xs hover:scale-[103%] duration-200"
@@ -114,7 +114,7 @@ function ProductCart({ product }) {
         <img
           src={img_url}
           alt={img}
-          className="h-12 lg:h-24 mx-1 lg:mx-3 object-cover rounded-md"
+          className="h-12 w-[40%] md:w-32 lg:h-24 mx-1 lg:mx-3 object-cover rounded-md"
         />
         <p className="text-xs md:text-sm font-normal text-center lg:mx-3">{name}</p>
       </td>
